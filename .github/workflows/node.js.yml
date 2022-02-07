@@ -54,7 +54,7 @@ jobs:
                   node-version: 16
                   cache: 'npm'
                   # https://blog.outsider.ne.kr/1559
-                  registry-url: 'https://npm.pkg.github.com'
+                  registry-url: 'https://registry.npmjs.org/'
 
             # 라이브러리 설치.
             - name: Install dependencies
