@@ -1,7 +1,4 @@
-# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
-# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
-
-name: Node.js CI
+name: Node.js CI & NPM
 
 on:
     push:
@@ -29,6 +26,35 @@ jobs:
                   node-version: 16
                   # node-version: ${{ matrix.node-version }}
                   cache: 'npm'
+
+            # 라이브러리 설치.
+            - name: Install dependencies
+              run: npm ci
+
+            # 빌드
+            - name: Build
+              run: npm run build --if-present
+
+            # 테스트 수행.
+            - name: Run tests
+              run: yarn test
+
+    public-npm:
+        needs: build
+        runs-on: ubuntu-latest
+        steps:
+            # 해당 저장소 코드 가져오기
+            - name: Checkout
+              uses: actions/checkout@v2
+
+            # Node 설치
+            - name: Install node
+              uses: actions/setup-node@v2
+              with:
+                  node-version: 16
+                  cache: 'npm'
+                  # https://blog.outsider.ne.kr/1559
+                  registry-url: 'https://npm.pkg.github.com'
 
             # 라이브러리 설치.
             - name: Install dependencies
