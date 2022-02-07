@@ -60,10 +60,8 @@ jobs:
             - name: Install dependencies
               run: npm ci
 
-            # 빌드
-            - name: Build
-              run: npm run build --if-present
-
-            # 테스트 수행.
-            - name: Run tests
-              run: yarn test
+            # NPM
+            - name: NPM
+              run: npm publish
+              env:
+                  NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
