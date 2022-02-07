@@ -4,7 +4,7 @@ import { StringFormatter } from './StringFormatter';
 // https://stackoverflow.com/questions/61781271/jest-wont-transform-the-module-syntaxerror-cannot-use-import-statement-outsi
 
 describe('StringFormatter', () => {
-    let formatter;
+    let formatter: StringFormatter;
     beforeEach(() => {
         formatter = new StringFormatter();
     });
