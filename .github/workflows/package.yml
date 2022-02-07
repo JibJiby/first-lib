@@ -1,19 +1,11 @@
-name: Node.js CI
+name: Node.js NPM Package
 
-on:
-    push:
-        branches:
-            - master
+on: workflow_dispatch # 직접 workflow 실행시.  https://docs.github.com/en/actions/managing-workflow-runs/manually-running-a-workflow
 
 jobs:
-    build:
+    public-npm:
+        # needs: build   # jobs.build 가 선행되어야 할 때.
         runs-on: ubuntu-latest
-
-        # strategy:
-        #     matrix:
-        #         node-version: [12.x, 14.x, 16.x]
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
-
         steps:
             # 해당 저장소 코드 가져오기
             - name: Checkout
@@ -24,8 +16,9 @@ jobs:
               uses: actions/setup-node@v2
               with:
                   node-version: 16
-                  # node-version: ${{ matrix.node-version }}
                   cache: 'npm'
+                  # https://blog.outsider.ne.kr/1559
+                  registry-url: 'https://registry.npmjs.org/'
 
             # 라이브러리 설치.
             - name: Install dependencies
@@ -38,3 +31,9 @@ jobs:
             # 테스트 수행.
             - name: Run tests
               run: yarn test
+
+            # NPM
+            - name: NPM
+              run: npm publish
+              env:
+                  NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
